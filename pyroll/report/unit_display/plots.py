@@ -7,7 +7,7 @@ from matplotlib.figure import Figure
 
 from pyroll.core import Unit, PassSequence, RollPass, Profile
 from .. import utils
-from ...pluggy import hookimpl, plugin_manager
+from pyroll.report.pluggy import hookimpl, plugin_manager
 
 _env = jinja2.Environment(
     loader=jinja2.FileSystemLoader(Path(__file__).parent, encoding="utf-8")
@@ -16,17 +16,17 @@ _env = jinja2.Environment(
 _template = _env.get_template("plots.html")
 
 
-@hookimpl(specname="report_unit_display")
+@hookimpl(specname="unit_display")
 def plots_display(unit: Unit):
     plots = [
         utils.get_svg_from_figure(p) if isinstance(p, Figure) else p
-        for p in plugin_manager.hook.report_unit_plot(unit=unit)
+        for p in plugin_manager.hook.unit_plot(unit=unit)
     ]
 
     return _template.render(plots=plots)
 
 
-@hookimpl(specname="report_unit_plot")
+@hookimpl(specname="unit_plot")
 def roll_forces_plot(unit: Unit):
     if isinstance(unit, PassSequence):
         fig, ax = utils.create_sequence_plot(unit)
@@ -48,7 +48,7 @@ def roll_forces_plot(unit: Unit):
             return fig
 
 
-@hookimpl(specname="report_unit_plot")
+@hookimpl(specname="unit_plot")
 def roll_torques_plot(unit: Unit):
     if isinstance(unit, PassSequence):
         fig, ax = utils.create_sequence_plot(unit)
@@ -70,7 +70,7 @@ def roll_torques_plot(unit: Unit):
             return fig
 
 
-@hookimpl(specname="report_unit_plot")
+@hookimpl(specname="unit_plot")
 def strains_plot(unit: Unit):
     if isinstance(unit, PassSequence):
         fig, ax = utils.create_sequence_plot(unit)
@@ -93,7 +93,7 @@ def strains_plot(unit: Unit):
             return fig
 
 
-@hookimpl(specname="report_unit_plot")
+@hookimpl(specname="unit_plot")
 def filling_ratios_plot(unit: Unit):
     if isinstance(unit, PassSequence):
         fig, ax = utils.create_sequence_plot(unit)
@@ -115,7 +115,7 @@ def filling_ratios_plot(unit: Unit):
             return fig
 
 
-@hookimpl(specname="report_unit_plot")
+@hookimpl(specname="unit_plot")
 def cross_sections_plot(unit: Unit):
     if isinstance(unit, PassSequence):
         fig, ax = utils.create_sequence_plot(unit)
@@ -149,7 +149,7 @@ def plot_pass_groove_contour(ax: plt.Axes, roll_pass: RollPass):
     ax.plot(*roll_pass.lower_contour_line.xy, color="k")
 
 
-@hookimpl(specname="report_unit_plot")
+@hookimpl(specname="unit_plot")
 def unit_plot(unit):
     """Plot roll pass contour and its profiles"""
 

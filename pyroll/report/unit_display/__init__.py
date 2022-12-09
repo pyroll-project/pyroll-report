@@ -1,4 +1,4 @@
-from ...pluggy import plugin_manager
+from pyroll.report.pluggy import plugin_manager
 
 from . import units
 
