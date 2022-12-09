@@ -25,13 +25,13 @@ classifiers = [
 
 [tool.poetry.dependencies]
 python = ">=3.9, <4.0"
+pyroll-core = "^2.0.0a"
 matplotlib = "^3.5.0"
 Jinja2 = "^3.0.3"
 pluggy = "^1.0.0"
-pyroll = "^2.0.0a"
 
 [tool.poetry.group.dev.dependencies]
-pyroll = { git = "ssh://git@github.com/pyroll-project/pyroll-core.git", branch = "remove_ui" }
+pyroll-core = { git = "ssh://git@github.com/pyroll-project/pyroll-core.git", branch = "remove_ui" }
 pytest = "^7.0.0"
 
 [tool.poetry.scripts]
