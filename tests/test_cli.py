@@ -1,5 +1,8 @@
 import subprocess
 import webbrowser
+import pytest
+
+import pyroll.report
 
 INPUT = """
 from pyroll.core import Profile, Roll, RollPass, Transport, RoundGroove, CircularOvalGroove, PassSequence
@@ -47,6 +50,7 @@ sequence = PassSequence([
 """
 
 
+@pytest.mark.skipif(not pyroll.report.CLI_INSTALLED, reason="pyroll-cli is not installed in the current environment")
 def test_cli(tmp_path):
     (tmp_path / "input.py").write_text(INPUT)
 

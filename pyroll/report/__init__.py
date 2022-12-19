@@ -9,5 +9,7 @@ from . import unit_display
 
 import importlib.util
 
-if importlib.util.find_spec("pyroll.cli"):
+CLI_INSTALLED = bool(importlib.util.find_spec("pyroll.cli"))
+
+if CLI_INSTALLED:
     from . import cli
