@@ -205,19 +205,12 @@ version = "2.0.0a1"
 description = "PyRoll rolling simulation framework - command line interface (CLI)."
 category = "dev"
 optional = false
-python-versions = ">=3.9, <4.0"
-develop = false
+python-versions = ">=3.9,<4.0"
 
 [package.dependencies]
-click = "^8.0.0"
-pyroll-core = "^2.0.0a"
-PyYAML = "^6.0"
-
-[package.source]
-type = "git"
-url = "ssh://git@github.com/pyroll-project/pyroll-cli.git"
-reference = "main"
-resolved_reference = "0ef78d75a9ae0015385d1c06faa66ea812c63cde"
+click = ">=8.0.0,<9.0.0"
+pyroll-core = ">=2.0.0a,<3.0.0"
+PyYAML = ">=6.0,<7.0"
 
 [[package]]
 name = "pyroll-core"
@@ -225,19 +218,12 @@ version = "2.0.0a2"
 description = "PyRoll rolling simulation framework - core library."
 category = "main"
 optional = false
-python-versions = ">=3.9, <4.0"
-develop = false
+python-versions = ">=3.9,<4.0"
 
 [package.dependencies]
-numpy = "^1.21.4"
-scipy = "^1.8.0"
-Shapely = "^1.8.1"
-
-[package.source]
-type = "git"
-url = "ssh://git@github.com/pyroll-project/pyroll-core.git"
-reference = "remove_ui"
-resolved_reference = "ac47508eda06e65b4cd9b71f03d9b44af71b5fb6"
+numpy = ">=1.21.4,<2.0.0"
+scipy = ">=1.8.0,<2.0.0"
+Shapely = ">=1.8.1,<2.0.0"
 
 [[package]]
 name = "pytest"
@@ -365,7 +351,7 @@ python-versions = ">=3.7"
 [metadata]
 lock-version = "1.1"
 python-versions = ">=3.9, <4.0"
-content-hash = "6fd25928e068f3e63d50ddf802bb953fc14400efe2ecf31d6afc09bfce0e5f52"
+content-hash = "55faa462d6859919b1a7e016438a82e687d4b0210480fe16ca8c139b284df2f1"
 
 [metadata.files]
 attrs = [
@@ -731,8 +717,14 @@ pyparsing = [
     {file = "pyparsing-3.0.9-py3-none-any.whl", hash = "sha256:5026bae9a10eeaefb61dab2f09052b9f4307d44aee4eda64b309723d8d206bbc"},
     {file = "pyparsing-3.0.9.tar.gz", hash = "sha256:2b020ecf7d21b687f219b71ecad3631f644a47f01403fa1d1036b0c6416d70fb"},
 ]
-pyroll-cli = []
-pyroll-core = []
+pyroll-cli = [
+    {file = "pyroll_cli-2.0.0a1-py3-none-any.whl", hash = "sha256:e9296bfc9a28fd7be3c8c28510cbb3c546b087338c8551eddc3d6ae7ff8567df"},
+    {file = "pyroll_cli-2.0.0a1.tar.gz", hash = "sha256:2e877a7cc0593c80f33c492af35a7529864237b1ec120e1b27890d99e4365d32"},
+]
+pyroll-core = [
+    {file = "pyroll_core-2.0.0a2-py3-none-any.whl", hash = "sha256:257f2cf8eee08951f73039d9e2b1b664bb951cf304df0ae1080894ac326e681d"},
+    {file = "pyroll_core-2.0.0a2.tar.gz", hash = "sha256:df11cf55e0ff807aec9a57fc3e242da4518cfb5505406c499a7d3cd7e19cf7b3"},
+]
 pytest = [
     {file = "pytest-7.2.0-py3-none-any.whl", hash = "sha256:892f933d339f068883b6fd5a459f03d85bfcb355e4981e146d2c7616c21fef71"},
     {file = "pytest-7.2.0.tar.gz", hash = "sha256:c4014eb40e10f11f355ad4e3c2fb2c6c6d1919c73f3b5a433de4708202cade59"},
