@@ -3,7 +3,7 @@ from pyroll.report.pluggy import hookimpl, plugin_manager
 
 
 @hookimpl(specname="unit_display", tryfirst=True)
-def sequence_heading(unit: Unit, level: int):
+def unit_heading(unit: Unit, level: int):
     return f"<h{level} class='mt-4'>{str(unit)}</h{level}>"
 
 

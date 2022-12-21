@@ -17,7 +17,7 @@ _template = _env.get_template("plots.html")
 
 
 @hookimpl(specname="unit_display")
-def plots_display(unit: Unit):
+def unit_plots_display(unit: Unit):
     plots = [
         utils.get_svg_from_figure(p) if isinstance(p, Figure) else p
         for p in plugin_manager.hook.unit_plot(unit=unit)
