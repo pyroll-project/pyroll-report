@@ -1,5 +1,5 @@
 from .report import report
-from pyroll.report.pluggy import plugin_manager
+from .pluggy import plugin_manager, hookimpl, hookspec
 
 from . import hookspecs
 
