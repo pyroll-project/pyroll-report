@@ -150,7 +150,7 @@ def plot_pass_groove_contour(ax: plt.Axes, roll_pass: RollPass):
 
 
 @hookimpl(specname="unit_plot")
-def unit_plot(unit):
+def roll_pass_plot(unit):
     """Plot roll pass contour and its profiles"""
 
     if isinstance(unit, RollPass):

@@ -1,3 +1,5 @@
+from typing import Union
+
 from matplotlib.figure import Figure
 
 from pyroll.report.pluggy import hookspec
@@ -12,7 +14,7 @@ def unit_display(unit: Unit, level: int) -> str:
 
 
 @hookspec
-def unit_plot(unit: Unit) -> Figure | str:
+def unit_plot(unit: Unit) -> Union[Figure, str]:
     """Generate a matplotlib figure or SVG code visualizing a unit.
     All loaded hook implementations are listed in the report."""
 
