@@ -3,6 +3,7 @@ import numpy as np
 from pyroll.core.repr import ReprMixin
 from pyroll.report.pluggy import hookimpl
 from .properties import render_properties_table, DoNotPrint
+import shapely.geometry
 
 
 def _is_float_like(value: object):
@@ -53,6 +54,20 @@ def array_format(value: object):
 @hookimpl(specname="property_format")
 def repr_mixin_format(value: object):
     if isinstance(value, ReprMixin):
+        return f"""
+        <details open>
+        <summary>{str(value)}</summary>
+            <div>
+                {render_properties_table(value)}
+            </div>
+        </details>
+        """
+
+
+@hookimpl(specname="property_format")
+def shapely_format(value: object):
+    if isinstance(value, (shapely.geometry.Polygon, shapely.geometry.LineString)):
+        # noinspection PyTypeChecker
         return f"""
         <details open>
         <summary>{str(value)}</summary>
