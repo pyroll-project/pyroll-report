@@ -144,11 +144,6 @@ def plot_profile(ax: plt.Axes, profile: Profile, color):
         ax.fill(*profile.equivalent_rectangle.boundary.xy, fill=False, color=color, ls="--")
 
 
-def plot_pass_groove_contour(ax: plt.Axes, roll_pass: RollPass):
-    ax.plot(*roll_pass.upper_contour_line.xy, color="k")
-    ax.plot(*roll_pass.lower_contour_line.xy, color="k")
-
-
 @hookimpl(specname="unit_plot")
 def roll_pass_plot(unit):
     """Plot roll pass contour and its profiles"""
@@ -160,7 +155,9 @@ def roll_pass_plot(unit):
         ax.set_aspect("equal", "datalim")
         ax.grid(lw=0.5)
 
-        plot_pass_groove_contour(ax, unit)
+        for cl in unit.contour_lines:
+            ax.plot(*cl.xy, color="k")
+
         plot_profile(ax, unit.in_profile, "red")
         plot_profile(ax, unit.out_profile, "blue")
 
