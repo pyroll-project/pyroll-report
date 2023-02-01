@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "pyroll-report"
-version = "2.0.0b1"
+version = "2.0.0b2"
 description = "PyRoll rolling simulation framework - HTML report generation."
 authors = [
     "Max Weiner <max.weiner@imf.tu-freiberg.de>",
