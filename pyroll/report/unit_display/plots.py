@@ -138,27 +138,33 @@ def cross_sections_plot(unit: Unit):
             return fig
 
 
-def plot_profile(ax: plt.Axes, profile: Profile, color):
-    if profile is not None:
-        ax.fill(*profile.cross_section.boundary.xy, alpha=0.5, color=color)
-        ax.fill(*profile.equivalent_rectangle.boundary.xy, fill=False, color=color, ls="--")
-
-
 @hookimpl(specname="unit_plot")
 def roll_pass_plot(unit):
     """Plot roll pass contour and its profiles"""
 
     if isinstance(unit, RollPass):
         fig: plt.Figure = plt.figure(constrained_layout=True, figsize=(4, 4))
-        ax: plt.Axes = fig.subplots()
+        ax: plt.Axes
+        axl: plt.Axes
+        ax, axl = fig.subplots(nrows=2, height_ratios=[1, 0.3])
+        ax.set_title("In- and Outcoming Profiles")
 
         ax.set_aspect("equal", "datalim")
         ax.grid(lw=0.5)
 
         for cl in unit.contour_lines:
-            ax.plot(*cl.xy, color="k")
+            c = ax.plot(*cl.xy, color="k", label="roll surface")
 
-        plot_profile(ax, unit.in_profile, "red")
-        plot_profile(ax, unit.out_profile, "blue")
+        ipp = ax.fill(*unit.in_profile.cross_section.boundary.xy, alpha=0.5, color="red", label="in profile")
+        opp = ax.fill(*unit.out_profile.cross_section.boundary.xy, alpha=0.5, color="blue", label="out profile")
+
+        ipr = ax.fill(*unit.in_profile.equivalent_rectangle.boundary.xy, fill=False, color="red", ls="--",
+                      label="in eq. rectangle")
+        opr = ax.fill(*unit.out_profile.equivalent_rectangle.boundary.xy, fill=False, color="blue", ls="--",
+                      label="out eq. rectangle")
+
+        axl.axis("off")
+        axl.legend(handles=c + ipp + opp + ipr + opr, ncols=2, loc="lower center")
+        fig.set_constrained_layout(True)
 
         return fig
