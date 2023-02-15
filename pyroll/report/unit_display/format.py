@@ -35,19 +35,19 @@ def float_format(value: object):
         return f"{np.format_float_positional(mantissa, trim='0', precision=3)}e{exp:+03d}"
 
 
-@hookimpl(specname="property_format")
+@hookimpl(specname="property_format", tryfirst=True)
 def temperature_format(name: str, value: object):
     if _is_float_like(value) and "temperature" in name:
         return np.format_float_positional(value, precision=1)
 
 
-@hookimpl(specname="property_format")
+@hookimpl(specname="property_format", tryfirst=True)
 def filling_ratio_format(name: str, value: object):
     if _is_float_like(value) and "filling_ratio" in name:
         return np.format_float_positional(value, precision=3)
 
 
-@hookimpl(specname="property_format")
+@hookimpl(specname="property_format", tryfirst=True)
 def strain_format(name: str, value: object):
     if _is_float_like(value) and (
             "strain" in name
@@ -56,6 +56,15 @@ def strain_format(name: str, value: object):
             or "spread" in name
     ):
         return np.format_float_positional(value, precision=4)
+
+
+@hookimpl(specname="property_format", tryfirst=True)
+def angle_format(name: str, value: object):
+    if _is_float_like(value) and (
+            "angle" in name
+            or "alpha" in name
+    ):
+        return np.format_float_positional(np.rad2deg(value), precision=2)
 
 
 @hookimpl(specname="property_format")
