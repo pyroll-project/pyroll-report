@@ -2,7 +2,7 @@ import logging
 from pathlib import Path
 
 from .report import report as report_func
-from pyroll.cli import main, State
+from pyroll.cli import State
 import click
 
 DEFAULT_REPORT_FILE = "report.html"
