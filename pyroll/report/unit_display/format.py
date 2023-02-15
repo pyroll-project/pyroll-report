@@ -42,6 +42,12 @@ def temperature_format(name: str, value: object):
 
 
 @hookimpl(specname="property_format")
+def filling_ratio_format(name: str, value: object):
+    if _is_float_like(value) and "filling_ratio" in name:
+        return np.format_float_positional(value, precision=3)
+
+
+@hookimpl(specname="property_format")
 def strain_format(name: str, value: object):
     if _is_float_like(value) and (
             "strain" in name
@@ -118,4 +124,10 @@ def do_not_print_units(name: str):
 @hookimpl(specname="property_format")
 def do_not_print_label(name: str):
     if name == "label":
+        raise DoNotPrint()
+
+
+@hookimpl(specname="property_format")
+def do_not_contour_points(name: str):
+    if name == "contour_points":
         raise DoNotPrint()
