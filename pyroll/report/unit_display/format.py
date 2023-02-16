@@ -1,11 +1,14 @@
 from typing import Sequence
 
+import matplotlib.pyplot as plt
 import numpy as np
 
 from pyroll.core.repr import ReprMixin
 from pyroll.report.pluggy import hookimpl, plugin_manager
 from .properties import render_properties_table, DoNotPrint
 import shapely.geometry
+
+from ..utils import plot_shapely_geom
 
 
 def _is_float_like(value: object):
@@ -93,9 +96,14 @@ def shapely_format(value: object):
         return f"""
         <details open>
             <summary>{str(value)}</summary>
-            <div>
+        <div class="row">
+            <div class="col-4">
+                {plot_shapely_geom(value)}
+            </div>
+            <div class="col-8">
                 {render_properties_table(value)}
             </div>
+        </div>
         </details>
         """
 

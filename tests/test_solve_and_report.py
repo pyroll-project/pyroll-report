@@ -1,7 +1,7 @@
 import logging
 import webbrowser
 from pathlib import Path
-from pyroll.core import Profile, Roll, RollPass, Transport, RoundGroove, CircularOvalGroove, PassSequence
+from pyroll.core import Profile, Roll, RollPass, Transport, RoundGroove, CircularOvalGroove, PassSequence, Rotator
 from pyroll.report import report
 
 
@@ -32,9 +32,18 @@ def test_solve_and_report(tmp_path: Path, caplog):
                 gap=2e-3,
             ),
             Transport(
-                label="I => II",
+                label="",
                 duration=1,
                 disk_element_count=3,
+            ),
+            Rotator(
+                label="",
+                rotation=90,
+                duration=0,
+            ),
+            Transport(
+                label="",
+                duration=1,
             ),
             RollPass(
                 label="Round II",
