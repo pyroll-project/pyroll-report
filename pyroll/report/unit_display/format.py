@@ -1,4 +1,4 @@
-from typing import Sequence
+from typing import Sequence, Collection
 
 import matplotlib.pyplot as plt
 import numpy as np
@@ -38,42 +38,13 @@ def float_format(value: object):
         return f"{np.format_float_positional(mantissa, trim='0', precision=3)}e{exp:+03d}"
 
 
-@hookimpl(specname="property_format", tryfirst=True)
-def temperature_format(name: str, value: object):
-    if _is_float_like(value) and "temperature" in name:
-        return np.format_float_positional(value, precision=1)
-
-
-@hookimpl(specname="property_format", tryfirst=True)
-def filling_ratio_format(name: str, value: object):
-    if _is_float_like(value) and "filling_ratio" in name:
-        return np.format_float_positional(value, precision=3)
-
-
-@hookimpl(specname="property_format", tryfirst=True)
-def strain_format(name: str, value: object):
-    if _is_float_like(value) and (
-            "strain" in name
-            or "elongation" in name
-            or "draught" in name
-            or "spread" in name
-    ):
-        return np.format_float_positional(value, precision=4)
-
-
-@hookimpl(specname="property_format", tryfirst=True)
-def angle_format(name: str, value: object):
-    if _is_float_like(value) and (
-            "angle" in name
-            or "alpha" in name
-    ):
-        return np.format_float_positional(np.rad2deg(value), precision=2)
-
-
 @hookimpl(specname="property_format")
-def array_format(value: object):
-    if isinstance(value, np.ndarray):
-        return np.array_str(value)
+def collection_format(name: str, value: object):
+    if (
+            isinstance(value, Collection)
+            and not isinstance(value, str)
+    ):
+        return ", ".join([plugin_manager.hook.property_format(name=name, value=e) for e in value])
 
 
 @hookimpl(specname="property_format")
@@ -96,7 +67,7 @@ def shapely_format(value: object):
         return f"""
         <details open>
             <summary>{str(value)}</summary>
-        <div class="row">
+        <div class="row align-items-center">
             <div class="col-4">
                 {plot_shapely_geom(value)}
             </div>
@@ -129,22 +100,4 @@ def disk_elements_format(name: str, value: object):
             </details>
             """
 
-        raise DoNotPrint()
-
-
-@hookimpl(specname="property_format")
-def do_not_print_units(name: str):
-    if name == "units":
-        raise DoNotPrint()
-
-
-@hookimpl(specname="property_format")
-def do_not_print_label(name: str):
-    if name == "label":
-        raise DoNotPrint()
-
-
-@hookimpl(specname="property_format")
-def do_not_contour_points(name: str):
-    if name == "contour_points":
         raise DoNotPrint()
