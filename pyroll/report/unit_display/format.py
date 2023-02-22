@@ -30,6 +30,9 @@ def int_format(value: object):
 @hookimpl(specname="property_format")
 def float_format(value: object):
     if _is_float_like(value):
+        if np.isclose(value, 0):
+            return None
+
         order = np.log10(np.abs(value)) // 3
         if not np.isfinite(order):
             return np.format_float_positional(value)
