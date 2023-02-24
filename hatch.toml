@@ -9,9 +9,8 @@ path = "pyroll/report/__init__.py"
 [envs.default]
 path = ".venv"
 dependencies = [
-    "ipython ~= 8.0",
     "pytest ~= 7.0",
-    "pyroll-cli ~= 2.0.0rc",
+    "pyroll-cli ~= 2.0",
 ]
 
 [envs.test]
