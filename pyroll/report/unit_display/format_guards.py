@@ -25,6 +25,16 @@ def do_not_print_points(name: str):
 
 
 @hookimpl(specname="property_format")
+def do_not_print_roll_surface(name: str):
+    if name in [
+        "surface_x",
+        "surface_y",
+        "surface_z"
+    ]:
+        raise DoNotPrint()
+
+
+@hookimpl(specname="property_format")
 def do_not_print_geom_sequences(name: str, value: object):
     if isinstance(value, Collection) and not isinstance(value, str):
         for e in value:
