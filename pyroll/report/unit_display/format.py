@@ -8,6 +8,7 @@ from pyroll.report.pluggy import hookimpl, plugin_manager
 from .properties import render_properties_table, DoNotPrint
 import shapely.geometry
 
+from ..config import Config
 from ..utils import plot_shapely_geom
 
 
@@ -84,6 +85,9 @@ def shapely_format(value: object):
 
 @hookimpl(specname="property_format")
 def disk_elements_format(name: str, value: object):
+    if not Config.PRINT_DISK_ELEMENTS:
+        raise DoNotPrint()
+
     if isinstance(value, Sequence) and name == "disk_elements":
         displays = "\n".join(
             [

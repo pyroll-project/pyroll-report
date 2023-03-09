@@ -1,5 +1,6 @@
 from .report import report
 from .pluggy import plugin_manager, hookimpl, hookspec
+from .config import Config
 
 from . import hookspecs
 
