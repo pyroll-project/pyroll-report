@@ -1,6 +1,5 @@
 from typing import Sequence, Collection
 
-import matplotlib.pyplot as plt
 import numpy as np
 
 from pyroll.core.repr import ReprMixin
