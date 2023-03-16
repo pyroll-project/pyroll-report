@@ -56,7 +56,7 @@ def repr_mixin_format(value: object):
     if isinstance(value, ReprMixin):
         return f"""
         <details open>
-        <summary>{str(value)}</summary>
+            <summary>{str(value)}</summary>
             <div>
                 {render_properties_table(value)}
             </div>
@@ -71,14 +71,14 @@ def shapely_format(value: object):
         return f"""
         <details open>
             <summary>{str(value)}</summary>
-        <div class="row align-items-center">
-            <div class="col-4">
-                {plot_shapely_geom(value)}
+            <div class="row align-items-center">
+                <div class="col-4">
+                    {plot_shapely_geom(value)}
+                </div>
+                <div class="col-8">
+                    {render_properties_table(value)}
+                </div>
             </div>
-            <div class="col-8">
-                {render_properties_table(value)}
-            </div>
-        </div>
         </details>
         """
 
