@@ -33,7 +33,7 @@ def test_float():
 
 
 def test_ratio():
-    _test_format("kjashd_ratio_jkfndsjk", 0.3141, "0.314")
+    _test_format("kjashd_ratio_jkfndsjk", 0.31416, "0.3142")
 
 
 def test_temperature():
@@ -104,7 +104,18 @@ def test_disk_elements_repr_mixin(tmp_path):
     webbrowser.open(f.as_uri())
 
 
-def test_disk_elements_shapely(tmp_path):
+def test_disk_elements_shapely_true(tmp_path, monkeypatch):
+    monkeypatch.setattr(Config, "PLOT_GEOMS", True)
+    result = pyroll.report.plugin_manager.hook.property_format(value=Point(0, 0).buffer(1), name="")
+
+    f = tmp_path / "result.html"
+    f.write_text(result)
+
+    webbrowser.open(f.as_uri())
+
+
+def test_disk_elements_shapely_false(tmp_path, monkeypatch):
+    monkeypatch.setattr(Config, "PLOT_GEOMS", False)
     result = pyroll.report.plugin_manager.hook.property_format(value=Point(0, 0).buffer(1), name="")
 
     f = tmp_path / "result.html"

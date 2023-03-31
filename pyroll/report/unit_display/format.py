@@ -38,7 +38,7 @@ def float_format(value: object):
             return np.format_float_positional(value)
         exp = int(order) * 3
         mantissa = value / 10 ** exp
-        return f"{np.format_float_positional(mantissa, trim='0', precision=3)}e{exp:+03d}"
+        return f"{np.format_float_positional(mantissa, trim='0', precision=Config.FLOAT_PRECISION)}e{exp:+03d}"
 
 
 @hookimpl(specname="property_format")
@@ -63,23 +63,33 @@ def repr_mixin_format(value: object):
         """
 
 
+# noinspection PyTypeChecker
 @hookimpl(specname="property_format")
 def shapely_format(value: object):
     if isinstance(value, (shapely.geometry.Polygon, shapely.geometry.LineString)):
-        # noinspection PyTypeChecker
-        return f"""
-        <details open>
-            <summary>{str(value)}</summary>
-            <div class="row align-items-center">
-                <div class="col-4">
-                    {plot_shapely_geom(value)}
+        if Config.PLOT_GEOMS:
+            return f"""
+            <details open>
+                <summary>{str(value)}</summary>
+                <div class="row align-items-center">
+                    <div class="col-4">
+                        {plot_shapely_geom(value)}
+                    </div>
+                    <div class="col-8">
+                        {render_properties_table(value)}
+                    </div>
                 </div>
-                <div class="col-8">
+            </details>
+            """
+        else:
+            return f"""
+            <details open>
+                <summary>{str(value)}</summary>
+                <div>
                     {render_properties_table(value)}
                 </div>
-            </div>
-        </details>
-        """
+            </details>
+            """
 
 
 @hookimpl(specname="property_format")
