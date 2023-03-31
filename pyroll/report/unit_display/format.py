@@ -23,7 +23,7 @@ def default_format(value: object):
 
 @hookimpl(specname="property_format")
 def int_format(value: object):
-    if isinstance(value, int):
+    if isinstance(value, int) and not isinstance(value, bool):
         return "{:d}".format(value)
 
 
@@ -84,10 +84,10 @@ def shapely_format(value: object):
 
 @hookimpl(specname="property_format")
 def disk_elements_format(name: str, value: object):
-    if not Config.PRINT_DISK_ELEMENTS:
-        raise DoNotPrint()
-
     if isinstance(value, Sequence) and name == "disk_elements":
+        if not Config.PRINT_DISK_ELEMENTS:
+            raise DoNotPrint()
+
         displays = "\n".join(
             [
                 d
