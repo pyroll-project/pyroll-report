@@ -1,8 +1,19 @@
+import logging
 import subprocess
 import webbrowser
+from importlib.metadata import entry_points
+
 import pytest
 
 import pyroll.report
+
+from click.testing import CliRunner
+from pyroll.cli.program import main
+
+commands = entry_points(group="pyroll.cli.commands")
+
+for c in commands:
+    main.add_command(c.load())
 
 INPUT = """
 from pyroll.core import Profile, Roll, RollPass, Transport, RoundGroove, CircularOvalGroove, PassSequence
@@ -49,13 +60,19 @@ sequence = PassSequence([
 ])
 """
 
+RUNNER = CliRunner()
+
 
 @pytest.mark.skipif(not pyroll.report.CLI_INSTALLED, reason="pyroll-cli is not installed in the current environment")
-def test_cli(tmp_path):
+def test_cli(tmp_path, monkeypatch, caplog):
     (tmp_path / "input.py").write_text(INPUT)
+    caplog.set_level(logging.INFO, "pyroll")
+    monkeypatch.chdir(tmp_path)
 
-    result = subprocess.run(("pyroll", "input-py", "solve", "report"), cwd=tmp_path)
+    result = RUNNER.invoke(main, ("input-py", "solve", "report"))
 
-    result.check_returncode()
+    print(caplog.text)
+
+    assert result.exit_code == 0
 
     webbrowser.open((tmp_path / "report.html").as_uri())
