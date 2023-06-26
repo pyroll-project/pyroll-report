@@ -165,6 +165,6 @@ def roll_pass_plot(unit):
 
         axl.axis("off")
         axl.legend(handles=c + ipp + opp + ipr + opr, ncols=2, loc="lower center")
-        fig.set_constrained_layout(True)
+        fig.set_layout_engine('constrained')
 
         return fig
