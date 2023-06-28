@@ -35,7 +35,7 @@ def do_not_print_additional_cross_sections(name: str):
 
 
 @hookimpl(specname="property_format")
-def do_not_print_displaced_area(name: str):
+def do_not_print_roll_surface(name: str):
     if name in [
         "surface_x",
         "surface_y",
