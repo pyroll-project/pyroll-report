@@ -52,5 +52,5 @@ def plot_shapely_geom(geom: shapely.Geometry):
         ax.fill(*geom.boundary.xy, c="k", alpha=0.5)
         ax.fill(*geom.boundary.xy, c="k", fill=False)
 
-    fig.set_constrained_layout(True)
+    fig.set_layout_engine('constrained')
     return resize_svg_to_100_percent(get_svg_from_figure(fig))

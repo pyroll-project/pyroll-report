@@ -25,6 +25,16 @@ def do_not_print_points(name: str):
 
 
 @hookimpl(specname="property_format")
+def do_not_print_additional_cross_sections(name: str):
+    if name in [
+        "displaced_cross_section",
+        "reappearing_cross_section"
+    ]:
+        raise DoNotPrint()
+
+
+
+@hookimpl(specname="property_format")
 def do_not_print_roll_surface(name: str):
     if name in [
         "surface_x",
