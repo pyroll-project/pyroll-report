@@ -1,5 +1,7 @@
 import datetime
 import os
+import tempfile
+import webbrowser
 
 import jinja2
 from pathlib import Path
@@ -52,3 +54,20 @@ def report_to(pass_sequence: PassSequence, file: Union[str, os.PathLike, TextIO]
     except AttributeError:
         path = Path(file)
         return path.write_text(result)
+
+
+def show_report(pass_sequence: PassSequence) -> Path:
+    """
+    Render an HTML report from the specified pass sequence, save it to a temporary file and open this in the webbrowser.
+
+    :param pass_sequence: PassSequence instance to take the data from
+    :returns: the path to the temporary file
+    """
+
+    result = report(pass_sequence)
+    with tempfile.NamedTemporaryFile("w", prefix="pyroll_report_", suffix=".html", delete=False) as file:
+        file.write(result)
+        path = Path(file.name)
+
+    webbrowser.open(path.as_uri())
+    return path
