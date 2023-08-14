@@ -13,7 +13,8 @@ def test_solve_and_report(tmp_path: Path, caplog):
         temperature=1200 + 273.15,
         strain=0,
         material=["C45", "steel"],
-        flow_stress=100e6
+        flow_stress=100e6,
+        cross_section_area_deviation=3,
     )
 
     sequence = PassSequence(
