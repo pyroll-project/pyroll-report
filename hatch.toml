@@ -9,7 +9,6 @@ path = "pyroll/report/__init__.py"
 [envs.default]
 path = ".venv"
 dependencies = [
-    "pyroll-core @ {root:uri}/pyroll_core-2.0.3-py3-none-any.whl",
     "pytest ~= 7.0",
     "pyroll-cli ~= 2.0",
 ]
