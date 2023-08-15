@@ -97,46 +97,42 @@ def strains_plot(unit: Unit):
 def filling_ratios_plot(unit: Unit):
     if isinstance(unit, PassSequence):
         fig, ax = utils.create_sequence_plot(unit)
-        ax.set_ylabel(r"filling ratio $i$")
-        ax.set_title("Filling Ratios")
+        ax.set_ylabel("Filling Ratio")
+        ax2: plt.Axes = ax.twinx()
+        ax2.set_ylabel("Filling Error")
+
+        ax.set_title("Filling Ratios and Errors")
 
         units = list(unit)
         if len(units) > 0:
-            x, y = np.transpose(
+            x, fr, csfr, fe, cse, tfr, tcsfr = np.transpose(
                 [
-                    (index, unit.out_profile.filling_ratio)
+                    (
+                        index,
+                        unit.out_profile.filling_ratio,
+                        unit.out_profile.cross_section_filling_ratio,
+                        unit.out_profile.filling_error,
+                        unit.out_profile.cross_section_error,
+                        unit.target_filling_ratio,
+                        unit.target_cross_section_filling_ratio,
+                    )
                     for index, unit in enumerate(units)
                     if isinstance(unit, RollPass)
                 ]
             )
 
-            ax.bar(x=x, height=y, width=0.8)
+            ax.plot(x, fr, label="Width Filling Ratio", c="C0")
+            ax.plot(x, csfr, label="Cross-Section Filling Ratio", c="C1")
+            ax.plot(x, tfr, label="Target", c="C0", ls="--")
+            ax.plot(x, tcsfr, label="Target", c="C1", ls="--")
+            ax2.plot(x, fe, label="Width Filling Error", c="C0", ls=":")
+            ax2.plot(x, cse, label="Cross-Section Error", c="C1", ls=":")
+
+            ax.legend(loc="lower left", ncols=2)
+            ax2.legend(loc="lower right")
 
             return fig
 
-@hookimpl(specname="unit_plot")
-def cross_section_filling_ratios_plot(unit: Unit):
-    if isinstance(unit, PassSequence):
-        if hasattr(unit[0].in_profile, "cross_section_area_deviation"):
-            fig, ax = utils.create_sequence_plot(unit)
-            ax.set_ylabel("Cross-section error")
-            ax.set_title("Initial cross-section error")
-
-            units = list(unit)
-            if len(units) > 0:
-                def gen_seq():
-                    yield -0.5, units[0].in_profile.cross_section_area_deviation
-                    for i, u in enumerate(units):
-                        if isinstance(u, RollPass):
-                            yield i + 0.5, u.cross_section_filling_ratio
-
-                x, y = np.transpose(
-                    list(gen_seq())
-                )
-
-                ax.plot(x, y, marker="x")
-
-                return fig
 
 @hookimpl(specname="unit_plot")
 def cross_sections_plot(unit: Unit):
