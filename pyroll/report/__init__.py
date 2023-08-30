@@ -1,4 +1,4 @@
-from .report import report
+from .report import report, report_to, show_report
 from .pluggy import plugin_manager, hookimpl, hookspec
 from .config import Config
 
@@ -15,4 +15,4 @@ CLI_INSTALLED = bool(importlib.util.find_spec("pyroll.cli"))
 if CLI_INSTALLED:
     from . import cli
 
-VERSION = "2.1.0"
+VERSION = "2.1.0.post0"
