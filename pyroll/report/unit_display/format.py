@@ -1,3 +1,4 @@
+import html
 from typing import Sequence, Collection
 
 import numpy as np
@@ -18,7 +19,7 @@ def _is_float_like(value: object):
 
 @hookimpl(specname="property_format", trylast=True)
 def default_format(value: object):
-    return str(value)
+    return html.escape(str(value))
 
 
 @hookimpl(specname="property_format")

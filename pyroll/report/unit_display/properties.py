@@ -1,4 +1,3 @@
-import html
 from pathlib import Path
 
 import jinja2
@@ -27,7 +26,7 @@ def render_properties_table(instance: ReprMixin):
     template = _env.get_template("properties.html")
 
     properties = [
-        (n.replace("_", " "), html.escape(s)) for n, v in instance.__attrs__.items()
+        (n.replace("_", " "), s) for n, v in instance.__attrs__.items()
         if (s := try_format_property(n, v)) is not None
     ]
 

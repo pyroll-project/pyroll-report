@@ -6,7 +6,7 @@ from pyroll.report.report import show_report
 IN_PROFILE = pr.Profile.round(
     diameter=4e-3,
     strain=0,
-    flow_stress=100e6,
+    flow_stress=lambda self: 100e6,
 )
 
 SEQUENCE = pr.PassSequence([
