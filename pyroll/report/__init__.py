@@ -15,4 +15,4 @@ CLI_INSTALLED = bool(importlib.util.find_spec("pyroll.cli"))
 if CLI_INSTALLED:
     from . import cli
 
-VERSION = "2.1.0.post0"
+VERSION = "2.1.0.post1"
