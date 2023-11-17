@@ -20,13 +20,11 @@ def orient_geometry_to_technology(geom: List[LineString], unit: RollPass):
         elif orientation.lower() in ["vertical", "v"]:
             orientation = 90
         elif orientation.lower() in ["antiy", "ay"]:
-            orientation = 60
+            orientation = 180
 
     if orientation != 0:
         if isinstance(geom, List):
             return [rotate(cl, angle=orientation, origin=(0, 0)) for cl in geom]
-        elif isinstance(unit, ThreeRollPass) and isinstance(geom, Polygon):
-            return geom
         else:
             return rotate(geom, angle=orientation, origin=(0, 0))
     return geom
