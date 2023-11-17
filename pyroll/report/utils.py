@@ -1,13 +1,35 @@
 import re
-from io import StringIO
-from typing import Sequence
-
-import numpy as np
 import shapely
+import numpy as np
+
+from io import StringIO
+from typing import Sequence, List
+from shapely.affinity import rotate
+from shapely import LineString, Polygon
 from matplotlib import pyplot as plt
 from matplotlib.ticker import FixedLocator, FixedFormatter
+from pyroll.core import Unit, RollPass, ThreeRollPass
 
-from pyroll.core import Unit
+
+def orient_geometry_to_technology(geom: List[LineString], unit: RollPass):
+    orientation = unit.orientation
+
+    if isinstance(orientation, str):
+        if orientation.lower() in ["horizontal", "h", "y"]:
+            orientation = 0
+        elif orientation.lower() in ["vertical", "v"]:
+            orientation = 90
+        elif orientation.lower() in ["antiy", "ay"]:
+            orientation = 60
+
+    if orientation != 0:
+        if isinstance(geom, List):
+            return [rotate(cl, angle=orientation, origin=(0, 0)) for cl in geom]
+        elif isinstance(unit, ThreeRollPass) and isinstance(geom, Polygon):
+            return geom
+        else:
+            return rotate(geom, angle=orientation, origin=(0, 0))
+    return geom
 
 
 def create_sequence_plot(units: Sequence[Unit]):

@@ -171,11 +171,15 @@ def roll_pass_plot(unit):
         ax.set_aspect("equal", "datalim")
         ax.grid(lw=0.5)
 
-        for cl in unit.contour_lines:
+        oriented_cl = utils.orient_geometry_to_technology(unit.contour_lines, unit)
+        oriented_ipp = utils.orient_geometry_to_technology(unit.in_profile.cross_section, unit)
+        oriented_opp =utils.orient_geometry_to_technology(unit.out_profile.cross_section, unit)
+
+        for cl in oriented_cl:
             c = ax.plot(*cl.xy, color="k", label="roll surface")
 
-        ipp = ax.fill(*unit.in_profile.cross_section.boundary.xy, alpha=0.5, color="red", label="in profile")
-        opp = ax.fill(*unit.out_profile.cross_section.boundary.xy, alpha=0.5, color="blue", label="out profile")
+        ipp = ax.fill(*oriented_ipp.boundary.xy, alpha=0.5, color="red", label="in profile")
+        opp = ax.fill(*oriented_opp.boundary.xy, alpha=0.5, color="blue", label="out profile")
 
         ipr = ax.fill(*unit.in_profile.equivalent_rectangle.boundary.xy, fill=False, color="red", ls="--",
                       label="in eq. rectangle")
