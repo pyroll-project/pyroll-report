@@ -49,6 +49,3 @@ report = "pyroll.report.cli:report"
 Homepage = "https://pyroll-project.github.io"
 Repository = "https://github.com/pyroll-project/pyroll-core"
 Documentation = "https://pyroll.readthedocs.io/en/latest"
-
-[tool.hatch.metadata]
-allow-direct-references = true
