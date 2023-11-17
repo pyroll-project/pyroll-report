@@ -33,6 +33,7 @@ def test_solve_and_report(tmp_path: Path, caplog):
             [
                 RollPass(
                     label="Oval I",
+                    orientation="H",
                     roll=Roll(
                         groove=CircularOvalGroove(
                             depth=8e-3,
@@ -61,6 +62,7 @@ def test_solve_and_report(tmp_path: Path, caplog):
                 ),
                 RollPass(
                     label="Round II",
+                    orientation="V",
                     roll=Roll(
                         groove=RoundGroove(
                             r1=1e-3,

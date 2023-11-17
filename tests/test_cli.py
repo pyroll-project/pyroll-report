@@ -29,6 +29,7 @@ in_profile = Profile.round(
 sequence = PassSequence([
     RollPass(
         label="Oval I",
+        orientation="H",
         roll=Roll(
             groove=CircularOvalGroove(
                 depth=8e-3,
@@ -46,6 +47,7 @@ sequence = PassSequence([
     ),
     RollPass(
         label="Round II",
+        orientation="V",
         roll=Roll(
             groove=RoundGroove(
                 r1=1e-3,
