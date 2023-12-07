@@ -29,21 +29,22 @@ def unit_plots_display(unit: Unit):
 @hookimpl(specname="unit_plot")
 def roll_forces_plot(unit: Unit):
     if isinstance(unit, PassSequence):
-        fig, ax = utils.create_sequence_plot(unit)
-        ax.set_ylabel(r"roll force $F$")
-        ax.set_title("Roll Forces")
+        if any(isinstance(subunit, RollPass) for subunit in unit):
+            fig, ax = utils.create_sequence_plot(unit)
+            ax.set_ylabel(r"roll force $F$")
+            ax.set_title("Roll Forces")
 
-        units = list(unit)
-        if len(units) > 0:
-            indices, forces = np.transpose(
-                [
-                    (index, unit.roll_force)
-                    for index, unit in enumerate(units)
-                    if isinstance(unit, RollPass)
-                ]
-            )
+            units = list(unit)
+            if len(units) > 0:
+                indices, forces = np.transpose(
+                    [
+                        (index, unit.roll_force)
+                        for index, unit in enumerate(units)
+                        if isinstance(unit, RollPass)
+                    ]
+                )
 
-            ax.bar(x=indices, height=forces, width=0.8)
+                ax.bar(x=indices, height=forces, width=0.8)
 
             return fig
 
@@ -51,19 +52,20 @@ def roll_forces_plot(unit: Unit):
 @hookimpl(specname="unit_plot")
 def roll_torques_plot(unit: Unit):
     if isinstance(unit, PassSequence):
-        fig, ax = utils.create_sequence_plot(unit)
-        ax.set_ylabel(r"roll torque $M$")
-        ax.set_title("Roll Torques")
+        if any(isinstance(subunit, RollPass) for subunit in unit):
+            fig, ax = utils.create_sequence_plot(unit)
+            ax.set_ylabel(r"roll torque $M$")
+            ax.set_title("Roll Torques")
 
-        units = list(unit)
-        if len(units) > 0:
-            x, y = np.transpose(
-                [
-                    (index, unit.roll.roll_torque)
-                    for index, unit in enumerate(units)
-                    if isinstance(unit, RollPass)
-                ]
-            )
+            units = list(unit)
+            if len(units) > 0:
+                x, y = np.transpose(
+                    [
+                        (index, unit.roll.roll_torque)
+                        for index, unit in enumerate(units)
+                        if isinstance(unit, RollPass)
+                    ]
+                )
 
             ax.bar(x=x, height=y, width=0.8)
 
@@ -96,65 +98,67 @@ def strains_plot(unit: Unit):
 @hookimpl(specname="unit_plot")
 def filling_ratios_plot(unit: Unit):
     if isinstance(unit, PassSequence):
-        fig, ax = utils.create_sequence_plot(unit)
-        ax.set_ylabel("Filling Ratio")
-        ax2: plt.Axes = ax.twinx()
-        ax2.set_ylabel("Filling Error")
+        if any(isinstance(subunit, RollPass) for subunit in unit):
+            fig, ax = utils.create_sequence_plot(unit)
+            ax.set_ylabel("Filling Ratio")
+            ax2: plt.Axes = ax.twinx()
+            ax2.set_ylabel("Filling Error")
 
-        ax.set_title("Filling Ratios and Errors")
+            ax.set_title("Filling Ratios and Errors")
 
-        units = list(unit)
-        if len(units) > 0:
-            x, fr, csfr, fe, cse, tfr, tcsfr = np.transpose(
-                [
-                    (
-                        index,
-                        unit.out_profile.filling_ratio,
-                        unit.out_profile.cross_section_filling_ratio,
-                        unit.out_profile.filling_error,
-                        unit.out_profile.cross_section_error,
-                        unit.target_filling_ratio,
-                        unit.target_cross_section_filling_ratio,
-                    )
-                    for index, unit in enumerate(units)
-                    if isinstance(unit, RollPass)
-                ]
-            )
+            units = list(unit)
+            if len(units) > 0:
+                x, fr, csfr, fe, cse, tfr, tcsfr = np.transpose(
+                    [
+                        (
+                            index,
+                            unit.out_profile.filling_ratio,
+                            unit.out_profile.cross_section_filling_ratio,
+                            unit.out_profile.filling_error,
+                            unit.out_profile.cross_section_error,
+                            unit.target_filling_ratio,
+                            unit.target_cross_section_filling_ratio,
+                        )
+                        for index, unit in enumerate(units)
+                        if isinstance(unit, RollPass)
+                    ]
+                )
 
-            ax.plot(x, fr, label="Width Filling Ratio", c="C0")
-            ax.plot(x, csfr, label="Cross-Section Filling Ratio", c="C1")
-            ax.plot(x, tfr, label="Target", c="C0", ls="--")
-            ax.plot(x, tcsfr, label="Target", c="C1", ls="--")
-            ax2.plot(x, fe, label="Width Filling Error", c="C0", ls=":")
-            ax2.plot(x, cse, label="Cross-Section Error", c="C1", ls=":")
+                ax.plot(x, fr, label="Width Filling Ratio", c="C0")
+                ax.plot(x, csfr, label="Cross-Section Filling Ratio", c="C1")
+                ax.plot(x, tfr, label="Target", c="C0", ls="--")
+                ax.plot(x, tcsfr, label="Target", c="C1", ls="--")
+                ax2.plot(x, fe, label="Width Filling Error", c="C0", ls=":")
+                ax2.plot(x, cse, label="Cross-Section Error", c="C1", ls=":")
 
-            ax.legend(loc="lower left", ncols=2)
-            ax2.legend(loc="lower right")
+                ax.legend(loc="lower left", ncols=2)
+                ax2.legend(loc="lower right")
 
-            return fig
+                return fig
 
 
 @hookimpl(specname="unit_plot")
 def cross_sections_plot(unit: Unit):
     if isinstance(unit, PassSequence):
-        fig, ax = utils.create_sequence_plot(unit)
-        ax.set_ylabel(r"cross section $A_\mathrm{p}$")
-        ax.set_title("Profile Cross-Sections")
+        if any(isinstance(subunit, RollPass) for subunit in unit):
+            fig, ax = utils.create_sequence_plot(unit)
+            ax.set_ylabel(r"cross section $A_\mathrm{p}$")
+            ax.set_title("Profile Cross-Sections")
 
-        units = list(unit)
-        if len(units) > 0:
-            def gen_seq():
-                yield -0.5, units[0].in_profile.cross_section.area
-                for i, u in enumerate(units):
-                    yield i + 0.5, u.out_profile.cross_section.area
+            units = list(unit)
+            if len(units) > 0:
+                def gen_seq():
+                    yield -0.5, units[0].in_profile.cross_section.area
+                    for i, u in enumerate(units):
+                        yield i + 0.5, u.out_profile.cross_section.area
 
-            x, y = np.transpose(
-                list(gen_seq())
-            )
+                x, y = np.transpose(
+                    list(gen_seq())
+                )
 
-            ax.plot(x, y, marker="x")
+                ax.plot(x, y, marker="x")
 
-            return fig
+                return fig
 
 
 @hookimpl(specname="unit_plot")
@@ -173,7 +177,7 @@ def roll_pass_plot(unit):
 
         oriented_cl = utils.orient_geometry_to_technology(unit.contour_lines, unit)
         oriented_ipp = utils.orient_geometry_to_technology(unit.in_profile.cross_section, unit)
-        oriented_opp =utils.orient_geometry_to_technology(unit.out_profile.cross_section, unit)
+        oriented_opp = utils.orient_geometry_to_technology(unit.out_profile.cross_section, unit)
 
         for cl in oriented_cl:
             c = ax.plot(*cl.xy, color="k", label="roll surface")
