@@ -47,8 +47,6 @@ def roll_forces_plot(unit: Unit):
                 ax.bar(x=indices, height=forces, width=0.8)
 
             return fig
-        else:
-            return None
 
 
 @hookimpl(specname="unit_plot")
@@ -72,8 +70,6 @@ def roll_torques_plot(unit: Unit):
             ax.bar(x=x, height=y, width=0.8)
 
             return fig
-        else:
-            return None
 
 
 @hookimpl(specname="unit_plot")
@@ -139,8 +135,6 @@ def filling_ratios_plot(unit: Unit):
                 ax2.legend(loc="lower right")
 
                 return fig
-        else:
-            return None
 
 
 @hookimpl(specname="unit_plot")
@@ -165,8 +159,6 @@ def cross_sections_plot(unit: Unit):
                 ax.plot(x, y, marker="x")
 
                 return fig
-        else:
-            return None
 
 
 @hookimpl(specname="unit_plot")
