@@ -7,12 +7,12 @@ from shapely import Point
 import pyroll.report
 import numpy as np
 
-from pyroll.report import Config
+from pyroll.report import Config, hookimpl, plugin_manager
 from pyroll.report.unit_display.properties import DoNotPrint
 
 
 def _test_format(name: str, value: object, expected: str):
-    result = pyroll.report.plugin_manager.hook.property_format(value=value, name=name)
+    result = pyroll.report.plugin_manager.hook.property_format(value=value, name=name, owner=None)
     print(result)
     assert result == expected
 
@@ -136,3 +136,26 @@ def test_guards(name):
 def test_geom_collection_guard():
     with pytest.raises(DoNotPrint):
         _test_format("", [Point(0, 0)], "")
+
+
+def test_collection_owner():
+    class Dummy:
+        def __init__(self):
+            self.prop = [1, 2, 3]
+
+    class Impls:
+        @staticmethod
+        @hookimpl(specname="property_format", tryfirst=True)
+        def test_format(owner: object):
+            return owner is not None
+
+    plugin_manager.register(Impls)
+
+    try:
+        dummy = Dummy()
+
+        result = pyroll.report.plugin_manager.hook.property_format(value=dummy.prop, name="prop", owner=dummy)
+        print(result)
+        assert result is True
+    finally:
+        plugin_manager.unregister(Impls)

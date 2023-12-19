@@ -43,12 +43,12 @@ def float_format(value: object):
 
 
 @hookimpl(specname="property_format")
-def collection_format(name: str, value: object):
+def collection_format(name: str, value: object, owner: object):
     if (
             isinstance(value, Collection)
             and not isinstance(value, str)
     ):
-        return ", ".join([plugin_manager.hook.property_format(name=name, value=e) for e in value])
+        return ", ".join([plugin_manager.hook.property_format(name=name, value=e, owner=owner) for e in value])
 
 
 @hookimpl(specname="property_format")
