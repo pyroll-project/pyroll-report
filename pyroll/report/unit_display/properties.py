@@ -15,9 +15,9 @@ class DoNotPrint(Exception):
     pass
 
 
-def try_format_property(name: str, value: object):
+def try_format_property(name: str, value: object, owner: object):
     try:
-        return plugin_manager.hook.property_format(name=name, value=value)
+        return plugin_manager.hook.property_format(name=name, value=value, owner=owner)
     except (TypeError, ValueError, DoNotPrint):
         return None
 
@@ -27,7 +27,7 @@ def render_properties_table(instance: ReprMixin):
 
     properties = [
         (n.replace("_", " "), s) for n, v in instance.__attrs__.items()
-        if (s := try_format_property(n, v)) is not None
+        if (s := try_format_property(n, v, instance)) is not None
     ]
 
     return template.render(

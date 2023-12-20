@@ -1,4 +1,4 @@
-from typing import Union
+from typing import Union, Optional
 
 from matplotlib.figure import Figure
 
@@ -20,5 +20,11 @@ def unit_plot(unit: Unit) -> Union[Figure, str]:
 
 
 @hookspec(firstresult=True)
-def property_format(name: str, value: object) -> str:
-    """Format the value of a property as string for display in the report. This hook is first result."""
+def property_format(name: str, value: object, owner: Optional[object]) -> str:
+    """
+    Format the value of a property as string for display in the report. This hook is first result.
+    :param name: the name of the property to format
+    :param value: the value of the property to format
+    :param owner: the owner of the property to format, may be None
+    """
+
