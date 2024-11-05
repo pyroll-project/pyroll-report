@@ -5,7 +5,7 @@ import numpy as np
 from matplotlib import pyplot as plt
 from matplotlib.figure import Figure
 
-from pyroll.core import Unit, PassSequence, RollPass, Profile
+from pyroll.core import Unit, PassSequence, BaseRollPass
 from .. import utils
 from pyroll.report.pluggy import hookimpl, plugin_manager
 
@@ -29,7 +29,7 @@ def unit_plots_display(unit: Unit):
 @hookimpl(specname="unit_plot")
 def roll_forces_plot(unit: Unit):
     if isinstance(unit, PassSequence):
-        if any(isinstance(subunit, RollPass) for subunit in unit):
+        if any(isinstance(subunit, BaseRollPass) for subunit in unit):
             fig, ax = utils.create_sequence_plot(unit)
             ax.set_ylabel(r"roll force $F$")
             ax.set_title("Roll Forces")
@@ -40,7 +40,7 @@ def roll_forces_plot(unit: Unit):
                     [
                         (index, unit.roll_force)
                         for index, unit in enumerate(units)
-                        if isinstance(unit, RollPass)
+                        if isinstance(unit, BaseRollPass)
                     ]
                 )
 
@@ -52,7 +52,7 @@ def roll_forces_plot(unit: Unit):
 @hookimpl(specname="unit_plot")
 def roll_torques_plot(unit: Unit):
     if isinstance(unit, PassSequence):
-        if any(isinstance(subunit, RollPass) for subunit in unit):
+        if any(isinstance(subunit, BaseRollPass) for subunit in unit):
             fig, ax = utils.create_sequence_plot(unit)
             ax.set_ylabel(r"roll torque $M$")
             ax.set_title("Roll Torques")
@@ -63,7 +63,7 @@ def roll_torques_plot(unit: Unit):
                     [
                         (index, unit.roll.roll_torque)
                         for index, unit in enumerate(units)
-                        if isinstance(unit, RollPass)
+                        if isinstance(unit, BaseRollPass)
                     ]
                 )
 
@@ -98,7 +98,7 @@ def strains_plot(unit: Unit):
 @hookimpl(specname="unit_plot")
 def filling_ratios_plot(unit: Unit):
     if isinstance(unit, PassSequence):
-        if any(isinstance(subunit, RollPass) for subunit in unit):
+        if any(isinstance(subunit, BaseRollPass) for subunit in unit):
             fig, ax = utils.create_sequence_plot(unit)
             ax.set_ylabel("Filling Ratio")
             ax2: plt.Axes = ax.twinx()
@@ -120,7 +120,7 @@ def filling_ratios_plot(unit: Unit):
                             unit.target_cross_section_filling_ratio,
                         )
                         for index, unit in enumerate(units)
-                        if isinstance(unit, RollPass)
+                        if isinstance(unit, BaseRollPass)
                     ]
                 )
 
@@ -140,7 +140,7 @@ def filling_ratios_plot(unit: Unit):
 @hookimpl(specname="unit_plot")
 def cross_sections_plot(unit: Unit):
     if isinstance(unit, PassSequence):
-        if any(isinstance(subunit, RollPass) for subunit in unit):
+        if any(isinstance(subunit, BaseRollPass) for subunit in unit):
             fig, ax = utils.create_sequence_plot(unit)
             ax.set_ylabel(r"cross section $A_\mathrm{p}$")
             ax.set_title("Profile Cross-Sections")
@@ -165,7 +165,7 @@ def cross_sections_plot(unit: Unit):
 def roll_pass_plot(unit):
     """Plot roll pass contour and its profiles"""
 
-    if isinstance(unit, RollPass):
+    if isinstance(unit, BaseRollPass):
         fig: plt.Figure = plt.figure(constrained_layout=True, figsize=(4, 4))
         ax: plt.Axes
         axl: plt.Axes
