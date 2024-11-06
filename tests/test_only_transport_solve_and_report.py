@@ -58,7 +58,7 @@ def test_only_transport_solve_and_report(tmp_path: Path, caplog):
     result = report(sequence)
 
     f = (tmp_path / "report.html")
-    f.write_text(result)
+    f.write_text(result, encoding="utf-8")
     print(f)
 
     webbrowser.open(f.as_uri())
