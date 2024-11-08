@@ -179,7 +179,7 @@ def roll_pass_plot(unit):
         oriented_ipp = utils.orient_geometry_to_technology(unit.in_profile.cross_section, unit)
         oriented_opp = utils.orient_geometry_to_technology(unit.out_profile.cross_section, unit)
 
-        for cl in oriented_cl:
+        for cl in oriented_cl.geoms:
             c = ax.plot(*cl.xy, color="k", label="roll surface")
 
         ipp = ax.fill(*oriented_ipp.boundary.xy, alpha=0.5, color="red", label="in profile")

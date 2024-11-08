@@ -5,13 +5,13 @@ import numpy as np
 from io import StringIO
 from typing import Sequence, List
 from shapely.affinity import rotate
-from shapely import LineString
+from shapely import LineString, Geometry
 from matplotlib import pyplot as plt
 from matplotlib.ticker import FixedLocator, FixedFormatter
 from pyroll.core import Unit, BaseRollPass
 
 
-def orient_geometry_to_technology(geom: List[LineString], unit: BaseRollPass):
+def orient_geometry_to_technology(geom: List[Geometry] | Geometry, unit: BaseRollPass):
     orientation = unit.orientation
 
     if isinstance(orientation, str):
