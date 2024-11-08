@@ -67,7 +67,7 @@ def repr_mixin_format(value: object):
 # noinspection PyTypeChecker
 @hookimpl(specname="property_format")
 def shapely_format(value: object):
-    if isinstance(value, (shapely.geometry.Polygon, shapely.geometry.LineString)):
+    if isinstance(value, (shapely.geometry.Polygon, shapely.geometry.LineString, shapely.geometry.MultiLineString, shapely.geometry.MultiPolygon)):
         if Config.PLOT_GEOMS:
             return f"""
             <details open>

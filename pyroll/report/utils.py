@@ -72,6 +72,13 @@ def plot_shapely_geom(geom: shapely.Geometry):
         elif isinstance(geom, shapely.Polygon):
             ax.fill(*geom.boundary.xy, c="k", alpha=0.5)
             ax.fill(*geom.boundary.xy, c="k", fill=False)
+        elif isinstance(geom, shapely.MultiLineString):
+            for g in geom.geoms:
+                ax.plot(*g.xy, c="k")
+        elif isinstance(geom, shapely.MultiPolygon):
+            for g in geom.geoms:
+                ax.fill(*g.boundary.xy, c="k", alpha=0.5)
+                ax.fill(*g.boundary.xy, c="k", fill=False)
     except NotImplementedError:
         return ""
 
