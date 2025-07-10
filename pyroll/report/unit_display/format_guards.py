@@ -32,7 +32,12 @@ def do_not_print_additional_cross_sections(name: str):
     ]:
         raise DoNotPrint()
 
-
+@hookimpl(specname="property_format")
+def do_not_print_convergence_history(name: str):
+    if name in [
+        "convergence_history"
+    ]:
+        raise DoNotPrint()
 
 @hookimpl(specname="property_format")
 def do_not_print_roll_surface(name: str):
