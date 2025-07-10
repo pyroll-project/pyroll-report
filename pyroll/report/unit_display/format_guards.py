@@ -40,6 +40,13 @@ def do_not_print_convergence_history(name: str):
         raise DoNotPrint()
 
 @hookimpl(specname="property_format")
+def do_not_print_tension_model(name: str):
+    if name in [
+        "tension_model"
+    ]:
+        raise DoNotPrint()
+
+@hookimpl(specname="property_format")
 def do_not_print_roll_surface(name: str):
     if name in [
         "surface_x",
