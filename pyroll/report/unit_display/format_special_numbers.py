@@ -30,8 +30,5 @@ def strain_format(name: str, value: object):
 
 @hookimpl(specname="property_format")
 def angle_format(name: str, value: object):
-    if _is_float_like(value) and (
-            "angle" in name
-            or "alpha" in name
-    ):
+    if _is_float_like(value) and (("angle" in name or "alpha" in name)) and "relative" not in name:
         return np.format_float_positional(np.rad2deg(value), precision=Config.ANGLE_PRECISION, trim="0")
