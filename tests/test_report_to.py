@@ -42,7 +42,7 @@ def test_path(tmp_path):
 def test_file_object(tmp_path):
     f = tmp_path / "report.html"
 
-    report_to(SEQUENCE, f.open("w"))
+    report_to(SEQUENCE, f.open("w", encoding="utf-8"))
 
     assert f.exists()
 

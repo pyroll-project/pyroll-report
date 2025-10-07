@@ -53,7 +53,7 @@ def report_to(pass_sequence: PassSequence, file: Union[str, os.PathLike, TextIO]
 
     except AttributeError:
         path = Path(file)
-        return path.write_text(result)
+        return path.write_text(result, encoding='utf-8')
 
 
 def show_report(pass_sequence: PassSequence) -> Path:
