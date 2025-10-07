@@ -65,7 +65,7 @@ def show_report(pass_sequence: PassSequence) -> Path:
     """
 
     result = report(pass_sequence)
-    with tempfile.NamedTemporaryFile("w", prefix="pyroll_report_", suffix=".html", delete=False) as file:
+    with tempfile.NamedTemporaryFile("w", prefix="pyroll_report_", suffix=".html", delete=False, encoding='utf-8') as file:
         file.write(result)
         path = Path(file.name)
 
