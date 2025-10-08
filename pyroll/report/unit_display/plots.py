@@ -75,6 +75,29 @@ def roll_torques_plot(unit: Unit):
 
 
 @hookimpl(specname="unit_plot")
+def engine_power_plot(unit: Unit):
+    if isinstance(unit, PassSequence):
+        if any(isinstance(subunit, BaseRollPass) for subunit in unit):
+            units = unit.roll_passes
+            fig, ax = utils.create_sequence_plot(units)
+            ax.set_ylabel(r"engine power $P_\mathrm{E}$")
+            ax.set_title("Engine Power")
+
+            if len(units) > 0:
+                x2, y2 = np.transpose(
+                    [
+                        (index, unit.engine.power)
+                        for index, unit in enumerate(units)
+                        if isinstance(unit, BaseRollPass)
+                    ]
+                )
+
+            ax.bar(x=x2, height=y2, width=0.8)
+
+            return fig
+
+
+@hookimpl(specname="unit_plot")
 def strains_plot(unit: Unit):
     if isinstance(unit, PassSequence):
         fig, ax = utils.create_sequence_plot(unit)
