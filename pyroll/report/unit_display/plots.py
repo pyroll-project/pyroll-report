@@ -76,22 +76,10 @@ def roll_torques_plot(unit: Unit):
 def engine_power_plot(unit: Unit):
     if isinstance(unit, PassSequence):
         if any(isinstance(subunit, BaseRollPass) for subunit in unit):
-            units = listunit.roll_passes
+            units = unit.roll_passes
             fig, ax = utils.create_sequence_plot(units)
             ax.set_ylabel(r"engine power $P_\mathrm{E}$")
             ax.set_title("Engine Power")
-
-            if len(units) > 0:
-                x1, y1 = np.transpose(
-                    [
-                        (index, unit.engine.maximum_power)
-                        for index, unit in enumerate(units)
-                        if isinstance(unit, BaseRollPass)
-                        and unit.engine.maximum_power is not None
-                    ]
-                )
-
-            ax.bar(x=x1, height=y1, width=0.8, alpha=0.5)
 
             if len(units) > 0:
                 x2, y2 = np.transpose(
@@ -105,11 +93,6 @@ def engine_power_plot(unit: Unit):
             ax.bar(x=x2, height=y2, width=0.8)
 
             return fig
-
-
-
-
-
 
 
 @hookimpl(specname="unit_plot")
