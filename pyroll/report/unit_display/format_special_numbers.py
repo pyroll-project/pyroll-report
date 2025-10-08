@@ -24,6 +24,7 @@ def strain_format(name: str, value: object):
             or "elongation" in name
             or "draught" in name
             or "spread" in name
+            or "efficiency" in name
     ):
         return np.format_float_positional(value, precision=Config.STRAIN_PRECISION, trim="0")
 
